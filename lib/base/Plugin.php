@@ -152,9 +152,9 @@ abstract class Plugin
         if ( $network_wide !== false && has_action( 'bookly_plugin_uninstall' ) ) {
             do_action( 'bookly_plugin_uninstall', static::getSlug() );
         } else {
-            $installer_class = static::getRootNamespace() . '\Lib\Installer';
+          /*  $installer_class = static::getRootNamespace() . '\Lib\Installer';
             $installer = new $installer_class();
-            $installer->uninstall();
+            $installer->uninstall();*/
         }
     }
 

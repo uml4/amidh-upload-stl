@@ -146,10 +146,10 @@ jQuery(function($) {
             return ;
         }
         
-        if(stl_link == '') {
-            alert('Please select your file');
-            return ;
-        }
+//        if(stl_link == '') {
+//            alert('Please select your file');
+//            return ;
+//        }
         var data = {};
         data.customer_id = customer_id;
     //    data.stl_link = stl_link;

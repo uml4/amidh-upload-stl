@@ -17,7 +17,7 @@ class Components extends Lib\Base\Components
      */
     public function renderButtons( $page_slug )
     {
-        $this->enqueueStyles( array(
+       /* $this->enqueueStyles( array(
             'frontend' => array( 'css/ladda.min.css', ),
         ) );
 
@@ -53,14 +53,14 @@ class Components extends Lib\Base\Components
         $messages_new = Lib\Entities\Message::query( 'm' )->where( 'm.seen', '0' )->count();
         $messages_link = Lib\Utils\Common::escAdminUrl( \Bookly\Backend\Modules\Message\Controller::page_slug );
         $this->render( '_buttons', compact( 'doc_link', 'show_contact_us_notice', 'show_feedback_notice', 'current_user', 'messages', 'messages_new', 'messages_link' ) );
-    }
+   */ }
 
     /**
      * Render subscribe notice.
      */
     public function renderSubscribeNotice()
     {
-        if ( Lib\Utils\Common::isCurrentUserAdmin() &&
+       /* if ( Lib\Utils\Common::isCurrentUserAdmin() &&
             ! get_user_meta( get_current_user_id(), Lib\Plugin::getPrefix() . 'dismiss_subscribe_notice', true ) ) {
 
             // Show notice 1 day after installation time.
@@ -78,7 +78,7 @@ class Components extends Lib\Base\Components
                 ) );
                 $this->render( '_subscribe_notice' );
             }
-        }
+        }*/
     }
 
     /**
@@ -86,7 +86,7 @@ class Components extends Lib\Base\Components
      */
     public function renderNpsNotice()
     {
-        if ( Lib\Utils\Common::isCurrentUserAdmin() ) {
+        /* if ( Lib\Utils\Common::isCurrentUserAdmin() ) {
             $dismiss_value = get_user_meta( get_current_user_id(), Lib\Plugin::getPrefix() . 'dismiss_nps_notice', true );
             // Show notice 1 month after it was closed the last time.
             if ( ! $dismiss_value || $dismiss_value > 1 && time() - $dismiss_value >= 30 * DAY_IN_SECONDS ) {
@@ -113,6 +113,6 @@ class Components extends Lib\Base\Components
                     $this->render( '_nps_notice', array( 'current_user' => wp_get_current_user() ) );
                 }
             }
-        }
+        }*/
     }
 }

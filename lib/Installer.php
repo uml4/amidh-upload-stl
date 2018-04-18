@@ -530,153 +530,153 @@ class Installer extends Base\Installer
             COLLATE = utf8_general_ci'
         );
 
-//        $wpdb->query(
-//            'CREATE TABLE IF NOT EXISTS `' . Entities\Category::getTableName() . '` (
-//                `id`       INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-//                `name`     VARCHAR(255) NOT NULL,
-//                `position` INT NOT NULL DEFAULT 9999
-//             ) ENGINE = INNODB
-//             DEFAULT CHARACTER SET = utf8
-//             COLLATE = utf8_general_ci'
-//        );
+        $wpdb->query(
+            'CREATE TABLE IF NOT EXISTS `' . Entities\Category::getTableName() . '` (
+                `id`       INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                `name`     VARCHAR(255) NOT NULL,
+                `position` INT NOT NULL DEFAULT 9999
+             ) ENGINE = INNODB
+             DEFAULT CHARACTER SET = utf8
+             COLLATE = utf8_general_ci'
+        );
+
+        $wpdb->query(
+            'CREATE TABLE IF NOT EXISTS `' . Entities\Service::getTableName() . '` (
+                `id`                     INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                `category_id`            INT UNSIGNED DEFAULT NULL,
+                `title`                  VARCHAR(255) DEFAULT "",
+                `duration`               INT NOT NULL DEFAULT 900,
+                `price`                  DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+                `color`                  VARCHAR(255) NOT NULL DEFAULT "#FFFFFF",
+                `capacity_min`           INT NOT NULL DEFAULT 1,
+                `capacity_max`           INT NOT NULL DEFAULT 1,
+                `padding_left`           INT NOT NULL DEFAULT 0,
+                `padding_right`          INT NOT NULL DEFAULT 0,
+                `info`                   TEXT DEFAULT NULL,
+                `start_time_info`        VARCHAR(255) DEFAULT "",
+                `end_time_info`          VARCHAR(255) DEFAULT "",
+                `type`                   ENUM("simple","compound","package") NOT NULL DEFAULT "simple",
+                `package_life_time`      INT DEFAULT NULL,
+                `package_size`           INT DEFAULT NULL,
+                `appointments_limit`     INT DEFAULT NULL,
+                `limit_period`           ENUM("off", "day","week","month","year") NOT NULL DEFAULT "off",
+                `staff_preference`       ENUM("order", "least_occupied", "most_occupied", "least_expensive", "most_expensive") NOT NULL DEFAULT "most_expensive",
+                `recurrence_enabled`     TINYINT(1) NOT NULL DEFAULT 1,
+                `recurrence_frequencies` SET("daily","weekly","biweekly","monthly") NOT NULL DEFAULT "daily,weekly,biweekly,monthly",
+                `visibility`             ENUM("public","private") NOT NULL DEFAULT "public",
+                `position`               INT NOT NULL DEFAULT 9999,
+                CONSTRAINT
+                    FOREIGN KEY (category_id)
+                    REFERENCES ' . Entities\Category::getTableName() . '(id)
+                    ON DELETE SET NULL
+                    ON UPDATE CASCADE
+            ) ENGINE = INNODB
+            DEFAULT CHARACTER SET = utf8
+            COLLATE = utf8_general_ci'
+        );
 //
-//        $wpdb->query(
-//            'CREATE TABLE IF NOT EXISTS `' . Entities\Service::getTableName() . '` (
-//                `id`                     INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-//                `category_id`            INT UNSIGNED DEFAULT NULL,
-//                `title`                  VARCHAR(255) DEFAULT "",
-//                `duration`               INT NOT NULL DEFAULT 900,
-//                `price`                  DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-//                `color`                  VARCHAR(255) NOT NULL DEFAULT "#FFFFFF",
-//                `capacity_min`           INT NOT NULL DEFAULT 1,
-//                `capacity_max`           INT NOT NULL DEFAULT 1,
-//                `padding_left`           INT NOT NULL DEFAULT 0,
-//                `padding_right`          INT NOT NULL DEFAULT 0,
-//                `info`                   TEXT DEFAULT NULL,
-//                `start_time_info`        VARCHAR(255) DEFAULT "",
-//                `end_time_info`          VARCHAR(255) DEFAULT "",
-//                `type`                   ENUM("simple","compound","package") NOT NULL DEFAULT "simple",
-//                `package_life_time`      INT DEFAULT NULL,
-//                `package_size`           INT DEFAULT NULL,
-//                `appointments_limit`     INT DEFAULT NULL,
-//                `limit_period`           ENUM("off", "day","week","month","year") NOT NULL DEFAULT "off",
-//                `staff_preference`       ENUM("order", "least_occupied", "most_occupied", "least_expensive", "most_expensive") NOT NULL DEFAULT "most_expensive",
-//                `recurrence_enabled`     TINYINT(1) NOT NULL DEFAULT 1,
-//                `recurrence_frequencies` SET("daily","weekly","biweekly","monthly") NOT NULL DEFAULT "daily,weekly,biweekly,monthly",
-//                `visibility`             ENUM("public","private") NOT NULL DEFAULT "public",
-//                `position`               INT NOT NULL DEFAULT 9999,
-//                CONSTRAINT
-//                    FOREIGN KEY (category_id)
-//                    REFERENCES ' . Entities\Category::getTableName() . '(id)
-//                    ON DELETE SET NULL
-//                    ON UPDATE CASCADE
-//            ) ENGINE = INNODB
-//            DEFAULT CHARACTER SET = utf8
-//            COLLATE = utf8_general_ci'
-//        );
+        $wpdb->query(
+            'CREATE TABLE IF NOT EXISTS `' . Entities\SubService::getTableName() . '` (
+                `id`                INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                `type`              ENUM("service","spare_time") NOT NULL DEFAULT "service",
+                `service_id`        INT UNSIGNED NOT NULL,
+                `sub_service_id`    INT UNSIGNED DEFAULT NULL,
+                `duration`          INT DEFAULT NULL,
+                `position`          INT NOT NULL DEFAULT 9999,
+                CONSTRAINT
+                    FOREIGN KEY (service_id)
+                    REFERENCES ' . Entities\Service::getTableName() . '(id)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE,
+                CONSTRAINT
+                    FOREIGN KEY (sub_service_id)
+                    REFERENCES ' . Entities\Service::getTableName() . '(id)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE
+            ) ENGINE = INNODB
+            DEFAULT CHARACTER SET = utf8
+            COLLATE = utf8_general_ci'
+        );
 //
-//        $wpdb->query(
-//            'CREATE TABLE IF NOT EXISTS `' . Entities\SubService::getTableName() . '` (
-//                `id`                INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-//                `type`              ENUM("service","spare_time") NOT NULL DEFAULT "service",
-//                `service_id`        INT UNSIGNED NOT NULL,
-//                `sub_service_id`    INT UNSIGNED DEFAULT NULL,
-//                `duration`          INT DEFAULT NULL,
-//                `position`          INT NOT NULL DEFAULT 9999,
-//                CONSTRAINT
-//                    FOREIGN KEY (service_id)
-//                    REFERENCES ' . Entities\Service::getTableName() . '(id)
-//                    ON DELETE CASCADE
-//                    ON UPDATE CASCADE,
-//                CONSTRAINT
-//                    FOREIGN KEY (sub_service_id)
-//                    REFERENCES ' . Entities\Service::getTableName() . '(id)
-//                    ON DELETE CASCADE
-//                    ON UPDATE CASCADE
-//            ) ENGINE = INNODB
-//            DEFAULT CHARACTER SET = utf8
-//            COLLATE = utf8_general_ci'
-//        );
+        $wpdb->query(
+            'CREATE TABLE IF NOT EXISTS `' . Entities\StaffPreferenceOrder::getTableName() . '` (
+                `id`          INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                `service_id`  INT UNSIGNED NOT NULL,
+                `staff_id`    INT UNSIGNED NOT NULL,
+                `position`    INT NOT NULL DEFAULT 9999,
+                CONSTRAINT
+                    FOREIGN KEY (service_id)
+                    REFERENCES ' . Entities\Service::getTableName() . '(id)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE,
+                CONSTRAINT
+                    FOREIGN KEY (staff_id)
+                    REFERENCES ' . Entities\Staff::getTableName() . '(id)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE
+            ) ENGINE = INNODB
+            DEFAULT CHARACTER SET = utf8
+            COLLATE = utf8_general_ci'
+        );
 //
-//        $wpdb->query(
-//            'CREATE TABLE IF NOT EXISTS `' . Entities\StaffPreferenceOrder::getTableName() . '` (
-//                `id`          INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-//                `service_id`  INT UNSIGNED NOT NULL,
-//                `staff_id`    INT UNSIGNED NOT NULL,
-//                `position`    INT NOT NULL DEFAULT 9999,
-//                CONSTRAINT
-//                    FOREIGN KEY (service_id)
-//                    REFERENCES ' . Entities\Service::getTableName() . '(id)
-//                    ON DELETE CASCADE
-//                    ON UPDATE CASCADE,
-//                CONSTRAINT
-//                    FOREIGN KEY (staff_id)
-//                    REFERENCES ' . Entities\Staff::getTableName() . '(id)
-//                    ON DELETE CASCADE
-//                    ON UPDATE CASCADE
-//            ) ENGINE = INNODB
-//            DEFAULT CHARACTER SET = utf8
-//            COLLATE = utf8_general_ci'
-//        );
+        $wpdb->query(
+            'CREATE TABLE IF NOT EXISTS `' . Entities\StaffScheduleItem::getTableName() . '` (
+                `id`         INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                `staff_id`   INT UNSIGNED NOT NULL,
+                `day_index`  INT UNSIGNED NOT NULL,
+                `start_time` TIME DEFAULT NULL,
+                `end_time`   TIME DEFAULT NULL,
+                UNIQUE KEY unique_ids_idx (staff_id, day_index),
+                CONSTRAINT
+                    FOREIGN KEY (staff_id)
+                    REFERENCES ' . Entities\Staff::getTableName() . '(id)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE
+             ) ENGINE = INNODB
+             DEFAULT CHARACTER SET = utf8
+             COLLATE = utf8_general_ci'
+        );
 //
-//        $wpdb->query(
-//            'CREATE TABLE IF NOT EXISTS `' . Entities\StaffScheduleItem::getTableName() . '` (
-//                `id`         INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-//                `staff_id`   INT UNSIGNED NOT NULL,
-//                `day_index`  INT UNSIGNED NOT NULL,
-//                `start_time` TIME DEFAULT NULL,
-//                `end_time`   TIME DEFAULT NULL,
-//                UNIQUE KEY unique_ids_idx (staff_id, day_index),
-//                CONSTRAINT
-//                    FOREIGN KEY (staff_id)
-//                    REFERENCES ' . Entities\Staff::getTableName() . '(id)
-//                    ON DELETE CASCADE
-//                    ON UPDATE CASCADE
-//             ) ENGINE = INNODB
-//             DEFAULT CHARACTER SET = utf8
-//             COLLATE = utf8_general_ci'
-//        );
+        $wpdb->query(
+            'CREATE TABLE IF NOT EXISTS `' . Entities\StaffService::getTableName() . '` (
+                `id`           INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                `staff_id`     INT UNSIGNED NOT NULL,
+                `service_id`   INT UNSIGNED NOT NULL,
+                `price`        DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+                `deposit`      VARCHAR(100) NOT NULL DEFAULT "100%",
+                `capacity_min` INT NOT NULL DEFAULT 1,
+                `capacity_max` INT NOT NULL DEFAULT 1,
+                UNIQUE KEY unique_ids_idx (staff_id, service_id),
+                CONSTRAINT
+                    FOREIGN KEY (staff_id)
+                    REFERENCES ' . Entities\Staff::getTableName() . '(id)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE,
+                CONSTRAINT
+                    FOREIGN KEY (service_id)
+                    REFERENCES ' . Entities\Service::getTableName() . '(id)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE
+            ) ENGINE = INNODB
+            DEFAULT CHARACTER SET = utf8
+            COLLATE = utf8_general_ci'
+        );
 //
-//        $wpdb->query(
-//            'CREATE TABLE IF NOT EXISTS `' . Entities\StaffService::getTableName() . '` (
-//                `id`           INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-//                `staff_id`     INT UNSIGNED NOT NULL,
-//                `service_id`   INT UNSIGNED NOT NULL,
-//                `price`        DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-//                `deposit`      VARCHAR(100) NOT NULL DEFAULT "100%",
-//                `capacity_min` INT NOT NULL DEFAULT 1,
-//                `capacity_max` INT NOT NULL DEFAULT 1,
-//                UNIQUE KEY unique_ids_idx (staff_id, service_id),
-//                CONSTRAINT
-//                    FOREIGN KEY (staff_id)
-//                    REFERENCES ' . Entities\Staff::getTableName() . '(id)
-//                    ON DELETE CASCADE
-//                    ON UPDATE CASCADE,
-//                CONSTRAINT
-//                    FOREIGN KEY (service_id)
-//                    REFERENCES ' . Entities\Service::getTableName() . '(id)
-//                    ON DELETE CASCADE
-//                    ON UPDATE CASCADE
-//            ) ENGINE = INNODB
-//            DEFAULT CHARACTER SET = utf8
-//            COLLATE = utf8_general_ci'
-//        );
-//
-//        $wpdb->query(
-//            'CREATE TABLE IF NOT EXISTS `' . Entities\ScheduleItemBreak::getTableName() . '` (
-//                `id`                     INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-//                `staff_schedule_item_id` INT UNSIGNED NOT NULL,
-//                `start_time`             TIME DEFAULT NULL,
-//                `end_time`               TIME DEFAULT NULL,
-//                CONSTRAINT
-//                    FOREIGN KEY (staff_schedule_item_id)
-//                    REFERENCES ' . Entities\StaffScheduleItem::getTableName() . '(id)
-//                    ON DELETE CASCADE
-//                    ON UPDATE CASCADE
-//             ) ENGINE = INNODB
-//             DEFAULT CHARACTER SET = utf8
-//             COLLATE = utf8_general_ci'
-//        );
+        $wpdb->query(
+            'CREATE TABLE IF NOT EXISTS `' . Entities\ScheduleItemBreak::getTableName() . '` (
+                `id`                     INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                `staff_schedule_item_id` INT UNSIGNED NOT NULL,
+                `start_time`             TIME DEFAULT NULL,
+                `end_time`               TIME DEFAULT NULL,
+                CONSTRAINT
+                    FOREIGN KEY (staff_schedule_item_id)
+                    REFERENCES ' . Entities\StaffScheduleItem::getTableName() . '(id)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE
+             ) ENGINE = INNODB
+             DEFAULT CHARACTER SET = utf8
+             COLLATE = utf8_general_ci'
+        );
 
         $wpdb->query(
             'CREATE TABLE IF NOT EXISTS `' . Entities\Notification::getTableName() . '` (
@@ -712,150 +712,150 @@ class Installer extends Base\Installer
             COLLATE = utf8_general_ci'
         );
 
-//        $wpdb->query(
-//            'CREATE TABLE IF NOT EXISTS `' . Entities\Series::getTableName() . '` (
-//                `id`     INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-//                `repeat` VARCHAR(255) DEFAULT NULL,
-//                `token`  VARCHAR(255) NOT NULL
-//            ) ENGINE = INNODB
-//            DEFAULT CHARACTER SET = utf8
-//            COLLATE = utf8_general_ci'
-//        );
+        $wpdb->query(
+            'CREATE TABLE IF NOT EXISTS `' . Entities\Series::getTableName() . '` (
+                `id`     INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                `repeat` VARCHAR(255) DEFAULT NULL,
+                `token`  VARCHAR(255) NOT NULL
+            ) ENGINE = INNODB
+            DEFAULT CHARACTER SET = utf8
+            COLLATE = utf8_general_ci'
+        );
 //
-//        $wpdb->query(
-//            'CREATE TABLE IF NOT EXISTS `' . Entities\Appointment::getTableName() . '` (
-//                `id`                   INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-//                `series_id`            INT UNSIGNED DEFAULT NULL,
-//                `location_id`          INT UNSIGNED DEFAULT NULL,
-//                `staff_id`             INT UNSIGNED NOT NULL,
-//                `staff_any`            TINYINT(1) NOT NULL DEFAULT 0,
-//                `service_id`           INT UNSIGNED DEFAULT NULL,
-//                `custom_service_name`  VARCHAR(255) DEFAULT NULL,
-//                `custom_service_price` DECIMAL(10,2) DEFAULT NULL,
-//                `start_date`           DATETIME NOT NULL,
-//                `end_date`             DATETIME NOT NULL,
-//                `google_event_id`      VARCHAR(255) DEFAULT NULL,
-//                `extras_duration`      INT NOT NULL DEFAULT 0,
-//                `internal_note`        TEXT DEFAULT NULL,
-//                CONSTRAINT
-//                    FOREIGN KEY (series_id)
-//                    REFERENCES  ' . Entities\Series::getTableName() . '(id)
-//                    ON DELETE CASCADE
-//                    ON UPDATE CASCADE,
-//                CONSTRAINT
-//                    FOREIGN KEY (staff_id)
-//                    REFERENCES ' . Entities\Staff::getTableName() . '(id)
-//                    ON DELETE CASCADE
-//                    ON UPDATE CASCADE,
-//                CONSTRAINT
-//                    FOREIGN KEY (service_id)
-//                    REFERENCES ' . Entities\Service::getTableName() . '(id)
-//                    ON DELETE CASCADE
-//                    ON UPDATE CASCADE
-//            ) ENGINE = INNODB
-//            DEFAULT CHARACTER SET = utf8
-//            COLLATE = utf8_general_ci'
-//        );
+        $wpdb->query(
+            'CREATE TABLE IF NOT EXISTS `' . Entities\Appointment::getTableName() . '` (
+                `id`                   INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                `series_id`            INT UNSIGNED DEFAULT NULL,
+                `location_id`          INT UNSIGNED DEFAULT NULL,
+                `staff_id`             INT UNSIGNED NOT NULL,
+                `staff_any`            TINYINT(1) NOT NULL DEFAULT 0,
+                `service_id`           INT UNSIGNED DEFAULT NULL,
+                `custom_service_name`  VARCHAR(255) DEFAULT NULL,
+                `custom_service_price` DECIMAL(10,2) DEFAULT NULL,
+                `start_date`           DATETIME NOT NULL,
+                `end_date`             DATETIME NOT NULL,
+                `google_event_id`      VARCHAR(255) DEFAULT NULL,
+                `extras_duration`      INT NOT NULL DEFAULT 0,
+                `internal_note`        TEXT DEFAULT NULL,
+                CONSTRAINT
+                    FOREIGN KEY (series_id)
+                    REFERENCES  ' . Entities\Series::getTableName() . '(id)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE,
+                CONSTRAINT
+                    FOREIGN KEY (staff_id)
+                    REFERENCES ' . Entities\Staff::getTableName() . '(id)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE,
+                CONSTRAINT
+                    FOREIGN KEY (service_id)
+                    REFERENCES ' . Entities\Service::getTableName() . '(id)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE
+            ) ENGINE = INNODB
+            DEFAULT CHARACTER SET = utf8
+            COLLATE = utf8_general_ci'
+        );
 //
-//        $wpdb->query(
-//            'CREATE TABLE IF NOT EXISTS `' . Entities\Holiday::getTableName() . '` (
-//                  `id`           INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-//                  `staff_id`     INT UNSIGNED NULL DEFAULT NULL,
-//                  `parent_id`    INT UNSIGNED NULL DEFAULT NULL,
-//                  `date`         DATE NOT NULL,
-//                  `repeat_event` TINYINT(1) NOT NULL DEFAULT 0,
-//                  CONSTRAINT
-//                      FOREIGN KEY (staff_id)
-//                      REFERENCES ' . Entities\Staff::getTableName() . '(id)
-//                      ON DELETE CASCADE
-//              ) ENGINE = INNODB
-//              DEFAULT CHARACTER SET = utf8
-//              COLLATE = utf8_general_ci'
-//        );
+        $wpdb->query(
+            'CREATE TABLE IF NOT EXISTS `' . Entities\Holiday::getTableName() . '` (
+                  `id`           INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                  `staff_id`     INT UNSIGNED NULL DEFAULT NULL,
+                  `parent_id`    INT UNSIGNED NULL DEFAULT NULL,
+                  `date`         DATE NOT NULL,
+                  `repeat_event` TINYINT(1) NOT NULL DEFAULT 0,
+                  CONSTRAINT
+                      FOREIGN KEY (staff_id)
+                      REFERENCES ' . Entities\Staff::getTableName() . '(id)
+                      ON DELETE CASCADE
+              ) ENGINE = INNODB
+              DEFAULT CHARACTER SET = utf8
+              COLLATE = utf8_general_ci'
+        );
 //
-//        $wpdb->query(
-//            'CREATE TABLE IF NOT EXISTS `' . Entities\Payment::getTableName() . '` (
-//                `id`        INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-//                `type`      ENUM("local","coupon","paypal","authorize_net","stripe","2checkout","payu_latam","payson","mollie","woocommerce") NOT NULL DEFAULT "local",
-//                `total`     DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-//                `paid`      DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-//                `paid_type` ENUM("in_full","deposit") NOT NULL DEFAULT "in_full",
-//                `status`    ENUM("pending","completed") NOT NULL DEFAULT "completed",
-//                `details`   TEXT DEFAULT NULL,
-//                `created`   DATETIME NOT NULL
-//            ) ENGINE = INNODB
-//            DEFAULT CHARACTER SET = utf8
-//            COLLATE = utf8_general_ci'
-//        );
+        $wpdb->query(
+            'CREATE TABLE IF NOT EXISTS `' . Entities\Payment::getTableName() . '` (
+                `id`        INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                `type`      ENUM("local","coupon","paypal","authorize_net","stripe","2checkout","payu_latam","payson","mollie","woocommerce") NOT NULL DEFAULT "local",
+                `total`     DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+                `paid`      DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+                `paid_type` ENUM("in_full","deposit") NOT NULL DEFAULT "in_full",
+                `status`    ENUM("pending","completed") NOT NULL DEFAULT "completed",
+                `details`   TEXT DEFAULT NULL,
+                `created`   DATETIME NOT NULL
+            ) ENGINE = INNODB
+            DEFAULT CHARACTER SET = utf8
+            COLLATE = utf8_general_ci'
+        );
 //
-//        $wpdb->query(
-//            'CREATE TABLE IF NOT EXISTS `' . Entities\CustomerAppointment::getTableName() . '` (
-//                `id`                  INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-//                `package_id`          INT UNSIGNED DEFAULT NULL,
-//                `customer_id`         INT UNSIGNED NOT NULL,
-//                `appointment_id`      INT UNSIGNED NOT NULL,
-//                `payment_id`          INT UNSIGNED DEFAULT NULL,
-//                `number_of_persons`   INT UNSIGNED NOT NULL DEFAULT 1,
-//                `notes`               TEXT DEFAULT NULL,
-//                `extras`              TEXT DEFAULT NULL,
-//                `custom_fields`       TEXT DEFAULT NULL,
-//                `status`              ENUM("pending","approved","cancelled","rejected","waitlisted") NOT NULL DEFAULT "approved",
-//                `status_changed_at`   DATETIME NULL,
-//                `token`               VARCHAR(255) DEFAULT NULL,
-//                `time_zone`           VARCHAR(255) DEFAULT NULL,
-//                `time_zone_offset`    INT DEFAULT NULL,
-//                `locale`              VARCHAR(8) NULL,
-//                `compound_service_id` INT UNSIGNED DEFAULT NULL,
-//                `compound_token`      VARCHAR(255) DEFAULT NULL,
-//                `created_from`        ENUM("frontend","backend") NOT NULL DEFAULT "frontend",
-//                `created`             DATETIME NOT NULL,
-//                CONSTRAINT
-//                    FOREIGN KEY (customer_id)
-//                    REFERENCES  ' . Entities\Customer::getTableName() . '(id)
-//                    ON DELETE   CASCADE
-//                    ON UPDATE   CASCADE,
-//                CONSTRAINT
-//                    FOREIGN KEY (appointment_id)
-//                    REFERENCES  ' . Entities\Appointment::getTableName() . '(id)
-//                    ON DELETE   CASCADE
-//                    ON UPDATE   CASCADE,
-//                CONSTRAINT 
-//                    FOREIGN KEY (payment_id)
-//                    REFERENCES ' . Entities\Payment::getTableName() . '(id)
-//                    ON DELETE   SET NULL
-//                    ON UPDATE   CASCADE
-//            ) ENGINE = INNODB
-//            DEFAULT CHARACTER SET = utf8
-//            COLLATE = utf8_general_ci'
-//        );
-//
-//        $wpdb->query(
-//            'CREATE TABLE IF NOT EXISTS `' . Entities\SentNotification::getTableName() . '` (
-//                `id`              INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-//                `ref_id`          INT UNSIGNED NOT NULL,
-//                `notification_id` INT UNSIGNED NOT NULL,
-//                `created`         DATETIME NOT NULL,
-//                INDEX `ref_id_idx` (`ref_id`),
-//                CONSTRAINT
-//                    FOREIGN KEY (notification_id) 
-//                    REFERENCES  ' . Entities\Notification::getTableName() . ' (`id`) 
-//                    ON DELETE   CASCADE 
-//                    ON UPDATE   CASCADE
-//              ) ENGINE = INNODB
-//              DEFAULT CHARACTER SET = utf8
-//              COLLATE = utf8_general_ci'
-//        );
-//
-//        $wpdb->query(
-//            'CREATE TABLE IF NOT EXISTS `' . Entities\Stat::getTableName() . '` (
-//                `id`       INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-//                `name`     VARCHAR(255) NOT NULL,
-//                `value`    TEXT DEFAULT NULL,
-//                `created`  DATETIME NOT NULL
-//              ) ENGINE = INNODB
-//              DEFAULT CHARACTER SET = utf8
-//              COLLATE = utf8_general_ci'
-//        );
+        $wpdb->query(
+            'CREATE TABLE IF NOT EXISTS `' . Entities\CustomerAppointment::getTableName() . '` (
+                `id`                  INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                `package_id`          INT UNSIGNED DEFAULT NULL,
+                `customer_id`         INT UNSIGNED NOT NULL,
+                `appointment_id`      INT UNSIGNED NOT NULL,
+                `payment_id`          INT UNSIGNED DEFAULT NULL,
+                `number_of_persons`   INT UNSIGNED NOT NULL DEFAULT 1,
+                `notes`               TEXT DEFAULT NULL,
+                `extras`              TEXT DEFAULT NULL,
+                `custom_fields`       TEXT DEFAULT NULL,
+                `status`              ENUM("pending","approved","cancelled","rejected","waitlisted") NOT NULL DEFAULT "approved",
+                `status_changed_at`   DATETIME NULL,
+                `token`               VARCHAR(255) DEFAULT NULL,
+                `time_zone`           VARCHAR(255) DEFAULT NULL,
+                `time_zone_offset`    INT DEFAULT NULL,
+                `locale`              VARCHAR(8) NULL,
+                `compound_service_id` INT UNSIGNED DEFAULT NULL,
+                `compound_token`      VARCHAR(255) DEFAULT NULL,
+                `created_from`        ENUM("frontend","backend") NOT NULL DEFAULT "frontend",
+                `created`             DATETIME NOT NULL,
+                CONSTRAINT
+                    FOREIGN KEY (customer_id)
+                    REFERENCES  ' . Entities\Customer::getTableName() . '(id)
+                    ON DELETE   CASCADE
+                    ON UPDATE   CASCADE,
+                CONSTRAINT
+                    FOREIGN KEY (appointment_id)
+                    REFERENCES  ' . Entities\Appointment::getTableName() . '(id)
+                    ON DELETE   CASCADE
+                    ON UPDATE   CASCADE,
+                CONSTRAINT 
+                    FOREIGN KEY (payment_id)
+                    REFERENCES ' . Entities\Payment::getTableName() . '(id)
+                    ON DELETE   SET NULL
+                    ON UPDATE   CASCADE
+            ) ENGINE = INNODB
+            DEFAULT CHARACTER SET = utf8
+            COLLATE = utf8_general_ci'
+        );
+
+        $wpdb->query(
+            'CREATE TABLE IF NOT EXISTS `' . Entities\SentNotification::getTableName() . '` (
+                `id`              INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                `ref_id`          INT UNSIGNED NOT NULL,
+                `notification_id` INT UNSIGNED NOT NULL,
+                `created`         DATETIME NOT NULL,
+                INDEX `ref_id_idx` (`ref_id`),
+                CONSTRAINT
+                    FOREIGN KEY (notification_id) 
+                    REFERENCES  ' . Entities\Notification::getTableName() . ' (`id`) 
+                    ON DELETE   CASCADE 
+                    ON UPDATE   CASCADE
+              ) ENGINE = INNODB
+              DEFAULT CHARACTER SET = utf8
+              COLLATE = utf8_general_ci'
+        );
+
+        $wpdb->query(
+            'CREATE TABLE IF NOT EXISTS `' . Entities\Stat::getTableName() . '` (
+                `id`       INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                `name`     VARCHAR(255) NOT NULL,
+                `value`    TEXT DEFAULT NULL,
+                `created`  DATETIME NOT NULL
+              ) ENGINE = INNODB
+              DEFAULT CHARACTER SET = utf8
+              COLLATE = utf8_general_ci'
+        );
 
         $wpdb->query(
             'CREATE TABLE IF NOT EXISTS `' . Entities\Message::getTableName() . '` (

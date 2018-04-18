@@ -35,8 +35,8 @@ abstract class Installer extends Schema
      */
     public function uninstall()
     {
-        //$this->removeData();
-      //  $this->dropPluginTables();
+       // $this->removeData();
+       // $this->dropPluginTables();
     }
 
     /**

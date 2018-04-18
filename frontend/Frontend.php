@@ -18,20 +18,20 @@ class Frontend
         add_action( get_option( 'bookly_gen_link_assets_method' ) == 'enqueue' ? 'wp_enqueue_scripts' : 'wp_loaded', array( $this, 'linkAssets' ) );
 
         // Init controllers.
-//        $this->bookingController         = Modules\Booking\Controller::getInstance();
-//        $this->customerProfileController = Modules\CustomerProfile\Controller::getInstance();
-//        $this->cancelConfirmController   = Modules\CancellationConfirmation\Controller::getInstance();
+        $this->bookingController         = Modules\Booking\Controller::getInstance();
+        $this->customerProfileController = Modules\CustomerProfile\Controller::getInstance();
+        $this->cancelConfirmController   = Modules\CancellationConfirmation\Controller::getInstance();
 //        $this->wooCommerceController     = Modules\WooCommerce\Controller::getInstance();
 
         if ( Lib\Config::paypalEnabled() ) {
             $this->paypalController = Modules\Paypal\Controller::getInstance();
         }
         // Register shortcodes.
-//        add_shortcode( 'bookly-form', array( $this->bookingController, 'renderShortCode' ) );
+        add_shortcode( 'bookly-form', array( $this->bookingController, 'renderShortCode' ) );
 //        /** @deprecated [ap-booking] */
 //        add_shortcode( 'ap-booking', array( $this->bookingController, 'renderShortCode' ) );
-//        add_shortcode( 'bookly-appointments-list', array( $this->customerProfileController, 'renderShortCode' ) );
-//        add_shortcode( 'bookly-cancellation-confirmation', array( $this->cancelConfirmController, 'renderShortCode' ) );
+        add_shortcode( 'bookly-appointments-list', array( $this->customerProfileController, 'renderShortCode' ) );
+        add_shortcode( 'bookly-cancellation-confirmation', array( $this->cancelConfirmController, 'renderShortCode' ) );
     }
 
     /**

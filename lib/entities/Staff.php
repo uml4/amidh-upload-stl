@@ -44,6 +44,7 @@ class Staff extends Lib\Base\Entity
         'info'               => array( 'format' => '%s' ),
         'visibility'         => array( 'format' => '%s' ),
         'position'           => array( 'format' => '%d' ),
+        'ea_user_id'           => array( 'format' => '%d' ),
     );
 
     /**

@@ -7,6 +7,26 @@ namespace Bookly\Lib;
  */
 class Updater extends Base\Updater
 {
+    
+    
+    function update_141_6()
+    {
+      
+
+        $this->alterTables( array(
+            'ab_services' => array(
+                'ALTER TABLE `%s` ADD COLUMN `ea_service_id` INT DEFAULT NULL',
+             ),
+            'ab_staff' => array(
+                'ALTER TABLE `%s` ADD COLUMN `ea_user_id` INT UNSIGNED DEFAULT NULL',
+            )
+        ) );
+
+       
+    }
+    
+    
+    
     function update_14_5()
     {
         $bookly_custom_fields = get_option( 'bookly_custom_fields', 'missing' );

@@ -3,7 +3,7 @@
 Plugin Name: Amidh
 Plugin URI: http://booking-wp-plugin.com
 Description: 
-Version: 14.5
+Version: 141.6
 Author: Amidh
 Author URI: 
 Text Domain: bookly

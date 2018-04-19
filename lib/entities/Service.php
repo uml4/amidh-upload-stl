@@ -91,6 +91,7 @@ class Service extends Lib\Base\Entity
         'recurrence_frequencies' => array( 'format' => '%s' ),
         'visibility'         => array( 'format' => '%s' ),
         'position'           => array( 'format' => '%d' ),
+        'ea_service_id'           => array( 'format' => '%d' )
     );
 
     /**

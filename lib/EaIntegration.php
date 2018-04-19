@@ -51,16 +51,7 @@ class EaIntegration
             $url = $url.'providers/';
         }
         
-        $request = new \WP_Http();
-        $response = $request->get( $url, $this->request_header );
-        
-        $response_code = $response['response']['code'];
-        
-        if($response_code == 200 ) {
-            return json_decode($response['body'],true);
-        } else {
-            return false;
-        }
+        return (array) $this->proceedRequest($url);
         
     }
     

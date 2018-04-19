@@ -29,6 +29,8 @@ class Staff extends Lib\Base\Entity
     protected $visibility = 'public';
     /** @var  int */
     protected $position = 9999;
+    
+    protected $ea_user_id = 9999;
 
     protected static $table = 'ab_staff';
 
@@ -328,6 +330,31 @@ class Staff extends Lib\Base\Entity
         return $this;
     }
 
+    /**
+     * Gets info
+     *
+     * @return string
+     */
+    public function getEaUserId()
+    {
+        return $this->ea_user_id;
+    }
+
+    /**
+     * Sets info
+     *
+     * @param string $info
+     * @return $this
+     */
+    public function setEaUserId( $ea_user_id )
+    {
+        $this->ea_user_id = $ea_user_id;
+
+        return $this;
+    }
+    
+    
+    
     /**
      * Gets visibility
      *

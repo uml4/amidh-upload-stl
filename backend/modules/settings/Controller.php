@@ -133,6 +133,17 @@ class Controller extends Lib\Base\Controller
                         update_option( 'bookly_co_name',    $this->getParameter( 'bookly_co_name' ) );
                         update_option( 'bookly_co_phone',   $this->getParameter( 'bookly_co_phone' ) );
                         update_option( 'bookly_co_website', $this->getParameter( 'bookly_co_website' ) );
+                        
+                        // check add '/' to the end of ea_api_url if not
+                        $ea_api_url =  $this->getParameter( 'ab_settings_ea_api_url' );
+                        if( substr($ea_api_url, -1) != '/'   ) {
+                            $ea_api_url = $ea_api_url.'/';
+                        }
+                        update_option( 'ab_settings_ea_api_url',    $ea_api_url );
+                        update_option( 'ab_settings_ea_admin_user_name',   $this->getParameter( 'ab_settings_ea_admin_user_name' ) );
+                        update_option( 'ab_settings_ea_admin_password', $this->getParameter( 'ab_settings_ea_admin_password' ) );
+                        
+                        
                         $alert['success'][] = __( 'Settings saved.', 'bookly' );
                         break;
                 }

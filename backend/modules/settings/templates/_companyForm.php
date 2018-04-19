@@ -45,6 +45,25 @@
     </div>
     <?php \Bookly\Lib\Utils\Common::optionText( 'bookly_co_phone', __( 'Phone', 'bookly' ) ) ?>
     <?php \Bookly\Lib\Utils\Common::optionText( 'bookly_co_website', __( 'Website', 'bookly' ) ) ?>
+    
+     <fieldset>
+            <legend><?php _e('Integration setting to Easy Appointment service','bookly') ?></legend>  
+            <div class="form-group">
+                <label for="ab_settings_ea_api_url"><?php _e( 'EA api url', 'bookly' ) ?></label>
+                  <p class="help-block"><?php _e( 'setting the EA api url. E.x http://booking.amidh.net/index.php/api/v1/  ', 'bookly' ) ?></p>
+                   <input id="ab_settings_ea_api_url" type="" class="form-control" 
+                          name="ab_settings_ea_api_url" value="<?php echo esc_attr( get_option( 'ab_settings_ea_api_url' , '' ) ) ?>" />
+            </div>
+            <?php \Bookly\Lib\Utils\Common::optionText( 'ab_settings_ea_admin_user_name', __( 'EA admin username', 'bookly' ) ) ?>
+          <div class="form-group">
+                <label for="ab_settings_ea_admin_password"><?php _e( 'EA admin password', 'bookly' ) ?></label>
+                <input id="ab_settings_ea_admin_password" type="password" class="form-control" 
+                          name="ab_settings_ea_admin_password" value="<?php echo esc_attr( get_option( 'ab_settings_ea_admin_password' , '' ) ) ?>" />
+            </div>
+           
+    </fieldset>  
+    
+    
 
     <div class="panel-footer">
         <?php \Bookly\Lib\Utils\Common::csrf() ?>

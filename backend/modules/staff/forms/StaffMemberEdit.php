@@ -23,6 +23,7 @@ class StaffMemberEdit extends StaffMember
             'position',
             'info',
             'visibility',
+            'ea_user_id'
         ) );
     }
 

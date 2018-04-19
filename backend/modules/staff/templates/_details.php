@@ -26,6 +26,36 @@
     <?php endif ?>
 
     <div class="row">
+        
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="bookly-ea_user_id"><?php _e( 'EA Provider ID', 'bookly' ) ?></label>
+                
+                <?php 
+                
+                   $eaItegration = new \Bookly\Lib\EaIntegration();                   
+                   $httpResponse = $eaItegration->getProviders();                     
+                    if($httpResponse['error_message']){
+                           echo "<br><span>".$httpResponse['error_message']."</span>";
+                       } else {
+                           $ea_providers = $httpResponse['body'];
+
+                ?>
+                <select class="form-control" name="ea_user_id" id="bookly-ea_user_id">
+                    <option value=""><?php _e( 'Select from WP users', 'bookly' ) ?></option>
+                    <?php foreach ( $ea_providers as $provider ) : ?>
+                        <option value="<?php echo $provider['id'] ?>"  <?php selected( $provider['id'], $staff->getEaUserId() ) ?>><?php echo $provider['lastName'].' - '.$provider['email'] ?></option>
+                    <?php endforeach ?>
+                </select>
+           
+                
+                <?php } ?>
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
                 <label for="bookly-email"><?php _e( 'Email', 'bookly' ) ?></label>

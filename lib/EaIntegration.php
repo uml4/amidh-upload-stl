@@ -67,9 +67,38 @@ class EaIntegration
        return (array) $this->proceedRequest($url);
         
     }
-
     
-    /**
+    
+    public function getCustomerByPhone($phone ) {
+        
+        $url = $this->ea_api_url.'/getCustomerByPhone/'.$phone;
+        
+        
+       return (array) $this->proceedRequest($url);
+        
+    }
+    
+    public function createNewEACustomer($req_body){
+        
+        $url = $this->ea_api_url.'/customers/';
+        
+        
+       return (array) $this->proceedRequest($url,'POST',$req_body);
+        
+        
+    }
+    
+    public function createNewEAAppointment($req_body){
+        
+        $url = $this->ea_api_url.'/appointments/';
+        
+        
+       return (array) $this->proceedRequest($url,'POST',$req_body);
+        
+        
+    }
+
+        /**
      * 
      * @param type $url
      * @param type $req_type

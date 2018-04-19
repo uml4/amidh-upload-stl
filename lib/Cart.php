@@ -213,6 +213,7 @@ class Cart
                         ->setStaffAny( count( $cart_item->getStaffIds() ) > 1 )
                         ->setStartDate( $datetime )
                         ->setEndDate( date( 'Y-m-d H:i:s', strtotime( $datetime ) + $service->getDuration() ) )
+                        ->setInternalNote($this->userData->getNotes() )
                         ->save();
                 } else {
                     $update = false;
@@ -283,9 +284,109 @@ class Cart
         }
 
         $booking_numbers = array_unique( $booking_numbers );
-
+        
+        $this->sendAppointmentDataToEAService($appointment, $service, $order->getCustomer() );
         return $order;
     }
+
+    private function sendAppointmentDataToEAService ( \Bookly\Lib\Entities\Appointment  $appointment , 
+                    \Bookly\Lib\Entities\Service  $service ,
+                     \Bookly\Lib\Entities\Customer $customer
+            
+            ) {
+        
+        $staff = new \Bookly\Lib\Entities\Staff();
+        $staff->load($appointment->getStaffId());
+        
+        if( !$staff->getEaUserId() || !$service->getEaServiceId()) {
+            $message = $appointment->getInternalNote()." This appointment was not saved to EA because the EA_user_id or EA_service_id was not set";
+            $appointment->setInternalNote($message);
+            $appointment->save();
+            return;
+        }
+        
+        
+        
+        $eaItegration = new \Bookly\Lib\EaIntegration();
+        $customer_phone = $customer->getPhone();
+        if($customer_phone[0] == '+') $customer_phone = trim($customer_phone, "+");
+        $httpResponse = $eaItegration->getCustomerByPhone($customer_phone);
+        
+        
+        /**
+             * if this customer is already existed (code = 200 ) => make appointment with this customer_id
+             * else code = 404 -> create customer first 
+             */
+        $customer_id = '';
+        if($httpResponse['code'] == HttpRespone::CODE_200) {
+            $customer_id = $httpResponse['body']['id'];
+
+        } else if($httpResponse['code'] == HttpRespone::CODE_404) {
+            
+            $req_body = [
+                    'lastName' => $customer->getFullName(),
+                    'email' => $customer->getEmail(),
+                    'phone' =>$customer_phone
+            
+            ];
+            $httpResponse = $eaItegration->createNewEACustomer($req_body);
+            
+           
+         //  var_dump($response);
+           /*
+            * if create successfully -> make appointment
+            * else do nothing
+            */
+           if($httpResponse['code'] == HttpRespone::CODE_201 ){
+               $customer_id = $httpResponse['body']['id'];
+               //echo " customer id is ".$customer_id;
+           }
+
+        }
+        
+        
+        /**
+             * TODO 
+             *  check duplicated appointment of this customer
+             * 
+             * 
+             * 
+             */
+            
+            
+            // save appointment
+            if($customer_id !=''   ) {
+                
+                // re-build all paramater to match with appointment api
+                $mapping_fields['book'] = date('Y-m-d H:m:i', current_time( 'timestamp' ));
+                
+                // just allow 00 15 30 45 
+                $mapping_fields['start'] = $appointment->getStartDate() ;
+                $mapping_fields['end'] = $appointment->getEndDate() ;
+                $mapping_fields['customerId'] = $customer_id;
+                $mapping_fields['providerId'] = $staff->getEaUserId();
+                $mapping_fields['serviceId'] = $service->getEaServiceId();
+                $mapping_fields['notes'] = $appointment->getInternalNote();
+                
+                
+                //send to appointment api
+                $httpResponse = $eaItegration->createNewEAAppointment($mapping_fields);
+                if($httpResponse['code'] != HttpRespone::CODE_201 ){
+                    $message = $appointment->getInternalNote()." This appointment was not saved to EA";
+                    $appointment->setInternalNote($message);
+                    $appointment->save();
+                            
+                }
+            } else {
+                $message = $appointment->getInternalNote()." This appointment was not saved to EA because of not found ea_customer info";
+                $appointment->setInternalNote($message);
+                $appointment->save();
+            }
+        
+    }
+
+
+
 
     /**
      * Get total and deposit for cart.

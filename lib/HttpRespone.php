@@ -20,7 +20,7 @@ class HttpRespone {
     const CODE_200 = 200;
     const CODE_201 = 201;
     const CODE_500 = 500;
-
+    const CODE_400 = 400;
 
     public $code;
     public $body = array();

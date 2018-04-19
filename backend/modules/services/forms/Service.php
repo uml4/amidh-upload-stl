@@ -40,6 +40,7 @@ class Service extends Lib\Base\Form
             'recurrence_frequencies',
             'visibility',
             'positions',
+            'ea_service_id'  
         );
 
         $this->setFields( $fields );

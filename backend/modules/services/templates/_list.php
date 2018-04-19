@@ -99,6 +99,50 @@ $time_interval = get_option( 'bookly_gen_time_slot_length' );
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                
+                                <div class="col-md-12 col-sm-6 bookly-js-service bookly-js-service-simple">
+                                    <div class="form-group">
+                                        <?php 
+                                    
+                                            $eaItegration = new \Bookly\Lib\EaIntegration();
+                                            $httpResponse = $eaItegration->getServices();
+                                           // var_dump($httpResponse);
+                                           
+
+                                                 
+
+                                        ?>
+                                        
+                                        <label><?php _e( 'EA service id', 'bookly' ) ?></label>
+                                        <?php 
+                                        
+                                            if($httpResponse['error_message']){
+                                                   echo "<br><span>".$httpResponse['error_message']."</span>";
+                                               } else {
+                                                   $ea_services = $httpResponse['body'];
+                                        
+                                        ?>
+                                        
+                                        <div class="bookly-color-picker-wrapper">
+                                            <select id="ea_service_id_<?php echo $service_id ?>" class="form-control" name="ea_service_id">
+                                                <option>None</option>
+                                                <?php foreach ($ea_services as $key => $ea_service)  : ?>
+                                                    
+                                                <option value="<?php echo esc_attr( $ea_service['id'] ) ?>"  <?php if($ea_service['id'] == $service['ea_service_id'])  echo  'selected' ?> ><?php echo esc_attr( $ea_service['name'] ) ?></option>
+                                                   
+                                                 
+                                                <?php endforeach; ?>
+                                               
+                                            </select>       
+                                        </div>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            
                             <?php Proxy\Packages::renderServicePackage( $service, $service_collection ) ?>
                             <div class="row">
                                 <div class="col-sm-4 bookly-js-service bookly-js-service-simple bookly-js-service-compound bookly-js-service-package">

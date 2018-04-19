@@ -30,7 +30,7 @@ class Staff extends Lib\Base\Entity
     /** @var  int */
     protected $position = 9999;
     
-    protected $ea_user_id = 9999;
+    protected $ea_user_id = '';
 
     protected static $table = 'ab_staff';
 

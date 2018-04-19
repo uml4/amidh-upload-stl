@@ -63,6 +63,8 @@ class Service extends Lib\Base\Entity
     protected $visibility = 'public';
     /** @var  int */
     protected $position = 9999;
+    
+    protected $ea_service_id = '';
 
 
     protected static $table = 'ab_services';
@@ -727,6 +729,31 @@ class Service extends Lib\Base\Entity
 
         return $this;
     }
+    
+        /**
+     * Gets info
+     *
+     * @return string
+     */
+    public function getEaServiceId()
+    {
+        return $this->ea_service_id;
+    }
+
+    /**
+     * Sets info
+     *
+     * @param string $info
+     * @return $this
+     */
+    public function setEaServiceId( $ea_service_id )
+    {
+        $this->ea_service_id = $ea_service_id;
+
+        return $this;
+    }
+    
+    
 
     /**************************************************************************
      * Overridden Methods                                                     *

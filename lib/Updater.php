@@ -9,7 +9,7 @@ class Updater extends Base\Updater
 {
     
     
-    function update_141_6()
+    function update_14_6()
     {
       
 
